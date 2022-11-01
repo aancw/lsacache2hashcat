@@ -8,9 +8,10 @@ extern crate colored;
 
 use clap::Parser;
 use colored::Colorize;
+use regex::Regex;
 use std::{
-    fs::{copy, create_dir_all, File},
-    io::{self, Write},
+    fs::File,
+    io::{self, BufRead},
     path::Path,
 };
 
@@ -28,7 +29,44 @@ struct Cli {
 
 fn main() {
     let cli = Cli::parse();
-    let dll_loc = cli.dll;
-    let payload_loc = cli.payload;
-    let auto = cli.auto;
+    let file = cli.file;
+    let re_iter = Regex::new(
+        r"\(([^)]+)\)"
+    ).unwrap();
+    let re_user = Regex::new(
+        r"([^\\]+$)"
+    ).unwrap();
+    let re_hash = Regex::new(
+        r"([^ :]+$)"
+    ).unwrap();
+    let mut iteration: &str;
+    let mut user: &str;
+    let mut dcc2_hash: &str;
+
+    if let Ok(lines) = read_lines(file) {
+
+        for line in lines {
+            if let Ok(i) = line {
+                if i.contains("Iteration") {
+                    let text_re = re_iter.captures(&i).unwrap();
+                    iteration = text_re.get(1).map_or("", |m| m.as_str());                
+                }
+                if i.contains("User"){
+                    let text_re = re_user.captures(&i).unwrap();
+                    user = text_re.get(1).map_or("", |m| m.as_str()); 
+                }
+                if i.contains("MsCacheV2"){
+                    let text_re = re_hash.captures(&i).unwrap();
+                    dcc2_hash = text_re.get(1).map_or("", |m| m.as_str()); 
+                }
+
+            }
+        }
+    }
+}
+
+fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
+where P: AsRef<Path>, {
+    let file = File::open(filename)?;
+    Ok(io::BufReader::new(file).lines())
 }

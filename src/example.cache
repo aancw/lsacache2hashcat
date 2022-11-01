@@ -1,0 +1,28 @@
+lsadump::cache
+Domain : WIN10
+SysKey : 8d8cedc8fd2d5dd6fab0de900a0aa89e
+
+Local name : WIN10 ( S-1-5-21-33154749527-45801244920-12070192126 )
+Domain name : env ( S-1-5-21-27706129153-29490704787-16405086403 )
+Domain FQDN : env.local
+
+Policy subsystem is : 1.18
+LSA Key(s) : 1, default {01d2f0ce-8f47-56e4-9a9c-0f368406feb7}
+  [00] {09ec4cd4-2aac-5e30-ba29-490e0440b912} 789e4b3da11a09cbc6e8dd9cd7c2bd79b751cf79bbeadc7b5d2530d44289f31e
+
+* Iteration is set to default (10240)
+
+[NL$1 - 10/21/2022 4:36:02 PM]
+RID       : 000006c2 (1730)
+User      : env\bob
+MsCacheV2 : e00cf25ad42683b3df678c61f42c6bda
+
+[NL$2 - 9/26/2021 2:46:02 PM]
+RID       : 000001f4 (500)
+User      : env\Administrator
+MsCacheV2 : 32cacb2f994f6b42183a1300d9a3e8d6
+
+[NL$3 - 10/18/2021 3:56:38 PM]
+RID       : 000006c4 (1732)
+User      : env\loy
+MsCacheV2 : fc1ebc848e31e0a68e868432225e3c82

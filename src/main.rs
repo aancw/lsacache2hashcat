@@ -38,7 +38,7 @@ fn main() {
     let re_hash = Regex::new(
         r"([^ :]+$)"
     ).unwrap();
-    let mut iteration: String;
+    let mut iter_text: Vec<String> = Vec::new();
     let mut user: Vec<String> = Vec::new();
     let mut dcc2_hash: Vec<String> = Vec::new();
 
@@ -48,7 +48,8 @@ fn main() {
             if let Ok(i) = line {
                 if i.contains("Iteration") {
                     let text_re = re_iter.captures(&i).unwrap();
-                    iteration = text_re.get(1).map_or("", |m| m.as_str()).to_string();
+                    let iter_result = text_re.get(1).map_or("", |m| m.as_str());
+                    iter_text.push(iter_result.to_string());
                 }
                 if i.contains("User"){
                     let text_re = re_user.captures(&i).unwrap();
@@ -62,9 +63,10 @@ fn main() {
                 }
             }
         }
-        for y in dcc2_hash{
-            println!("{}", y);
-        }
+
+        user.iter().enumerate().for_each(|(index, value)| {
+            println!("$DCC2${}#{}#{}", iter_text[0], value, dcc2_hash[index]);
+        });
     }
 }
 

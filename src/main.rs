@@ -26,14 +26,6 @@ struct Cli {
     file: String,
 }
 
-struct User {
-    username: String,
-}
-
-struct DCC2 {
-    hash: String,
-}
-
 fn main() {
     let cli = Cli::parse();
     let file = cli.file;
@@ -46,9 +38,9 @@ fn main() {
     let re_hash = Regex::new(
         r"([^ :]+$)"
     ).unwrap();
-    let mut iteration: &str;
-    let mut user: Vec<User> = Vec::new();
-    let mut dcc2_hash: Vec<DCC2> = Vec::new();
+    let mut iteration: String;
+    let mut user: Vec<String> = Vec::new();
+    let mut dcc2_hash: Vec<String> = Vec::new();
 
     if let Ok(lines) = read_lines(file) {
 
@@ -56,22 +48,22 @@ fn main() {
             if let Ok(i) = line {
                 if i.contains("Iteration") {
                     let text_re = re_iter.captures(&i).unwrap();
-                    iteration = text_re.get(1).map_or("", |m| m.as_str());                
+                    iteration = text_re.get(1).map_or("", |m| m.as_str()).to_string();
                 }
                 if i.contains("User"){
                     let text_re = re_user.captures(&i).unwrap();
                     let result_user = text_re.get(1).map_or("", |m| m.as_str());
-                    let user_struct = User { username: result_user.to_string() };
-                    let _= user.push(user_struct);
+                    user.push(result_user.to_string());
                 }
                 if i.contains("MsCacheV2"){
                     let text_re = re_hash.captures(&i).unwrap();
                     let result_dcc2_hash = text_re.get(1).map_or("", |m| m.as_str());
-                    let hash_struct = DCC2 { hash: result_dcc2_hash.to_string()};
-                    let _= &dcc2_hash.push(hash_struct);
+                    dcc2_hash.push(result_dcc2_hash.to_string());
                 }
-
             }
+        }
+        for y in dcc2_hash{
+            println!("{}", y);
         }
     }
 }

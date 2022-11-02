@@ -16,11 +16,10 @@ use std::{
 };
 
 #[derive(Parser)]
-#[clap(name = "lsacache2hashcat")]
-#[clap(author = "Petruknisme <me@petruknisme.com>")]
-#[clap(version = "1.0")]
-#[clap(about = "Give me lsadump:cache from mimikatz, I will transform it to DCC2 Hashcat compatible. Useful for so many credentials cache", long_about = None)]
-
+#[command(name = "lsacache2hashcat")]
+#[command(author = "Petruknisme <me@petruknisme.com>")]
+#[command(version = "1.0")]
+#[command(about = "Give me lsadump::cache from mimikatz, I will transform it to DCC2 Hashcat compatible. Useful for dumping so many credentials caches", long_about = None)]
 struct Cli {
     /// Lsadump cache output from mimikatz
     #[clap(short, long)]
